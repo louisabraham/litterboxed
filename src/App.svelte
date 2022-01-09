@@ -1,4 +1,5 @@
 <script>
+    import { onMount } from "svelte";
     import { fade } from "svelte/transition";
 
     let minlength = 3;
@@ -11,10 +12,10 @@
     let letter_size = 4;
     let letters = generate().join("").toUpperCase();
     let check;
-    (async () => {
+    onMount(async () => {
         check = make_check();
         console.log(check("NAME"));
-    })();
+    });
 
     let hitboxes = [];
     for (let i = 0; i < 3; i++) {
