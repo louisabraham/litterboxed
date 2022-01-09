@@ -116,9 +116,9 @@
     <div class="current">
         {#if message}
             <span
-                style="position: absolute; left: 0; right: 0;
-			margin-top: -1.4em; font-size: medium;"
-                transition:fade>{message}</span
+                style="position: absolute; left: 0; right: 0; font-size: medium;"
+                transition:fade
+                class="message">{message}</span
             >
         {/if}
         <span style="display: inline">{currentWord}</span><span
@@ -238,6 +238,16 @@
         margin-top: 1em;
         margin-bottom: 1em;
     }
-    @media (min-width: 640px) {
+
+    .message {
+        margin-top: -1.4em;
+    }
+    @media (max-width: 350px) {
+        h1 {
+            font-size: 2.5em;
+        }
+        .message {
+            margin-top: -1.2em;
+        }
     }
 </style>
