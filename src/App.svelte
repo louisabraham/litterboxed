@@ -5,7 +5,7 @@
 
     let minlength = 3;
     let side = 30;
-    let x = 35;
+    let x = 6;
     let y = 6;
     let circles = [];
     let letters_pos = [];
@@ -132,7 +132,7 @@
         />
     </div>
     <div class="words"><p>{words}</p></div>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 42">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
         <rect
             {x}
             {y}
@@ -234,7 +234,7 @@
 
     svg {
         width: 100%;
-        max-width: 800px;
+        max-width: 400px;
         margin-top: 1em;
         margin-bottom: 1em;
     }
