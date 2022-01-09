@@ -41,7 +41,7 @@
         message = "loading dict";
         let scrabble = await loadWords("./scrabble.txt");
         check = makeCheck(scrabble);
-        message = "";
+        message = " ";
     })();
 
     let hitboxes = [];
