@@ -205,7 +205,7 @@
     h1 {
         color: #ff3e00;
         text-transform: uppercase;
-        font-size: 4em;
+        font-size: 3em;
         font-weight: 100;
         margin-top: 0;
         margin-bottom: 0.4em;
