@@ -163,7 +163,16 @@
 			border:1px solid black; margin-top: 0"
         />
     </div>
-    <div class="words"><p>{words}</p></div>
+    <div class="words">
+        <p
+            style="width: fit-content; margin: auto"
+            on:click={() => {
+                navigator.clipboard.writeText(words), alert("copied");
+            }}
+        >
+            {words}
+        </p>
+    </div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
         <rect
             {x}
