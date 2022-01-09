@@ -1,8 +1,13 @@
 <script>
-    import { onMount } from "svelte";
-    import { set_data } from "svelte/internal";
+    import {
+        seed,
+        getDate,
+        loadWords,
+        makeGenerate,
+        makeCheck,
+    } from "./litterboxed.js";
+
     import { fade } from "svelte/transition";
-    export let brython_promise;
 
     let message = "loading";
     let alert = (msg) => {
@@ -12,16 +17,6 @@
         }, 1000);
     };
 
-    let getDate = () => {
-        var today = new Date();
-        return (
-            today.getFullYear() +
-            "-" +
-            (today.getMonth() + 1) +
-            "-" +
-            today.getDate()
-        );
-    };
     let minlength = 3;
     let side = 30;
     let x = 6;
@@ -35,20 +30,19 @@
         localStorage.removeItem("puzzle");
     }
     letters = localStorage.getItem("puzzle") || "            ";
-    let generate;
-    let check;
-    onMount(async () => {
-        brython_promise.then(() => {
-            message = "";
-            generate = make_generate();
-            letters = generate().join("").toUpperCase();
-            localStorage.setItem("puzzle", letters);
-            localStorage.setItem("date", getDate());
-            message = "loading dict";
-            check = make_check();
-            message = "";
-        });
-    });
+    let generate, check;
+    (async () => {
+        seed(getDate());
+        let easy = await loadWords("./easy.txt");
+        generate = makeGenerate(easy);
+        letters = generate().join("").toUpperCase();
+        localStorage.setItem("puzzle", letters);
+        localStorage.setItem("date", getDate());
+        message = "loading dict";
+        let scrabble = await loadWords("./scrabble.txt");
+        check = makeCheck(scrabble);
+        message = "";
+    })();
 
     let hitboxes = [];
     for (let i = 0; i < 3; i++) {
