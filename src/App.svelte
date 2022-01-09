@@ -89,6 +89,7 @@
     let currentWord = "";
     $: lastLetter = currentWord ? letters.indexOf(currentWord.slice(-1)) : -1;
     let selectLetter = (i) => {
+        if (done) return;
         if (Math.floor(lastLetter / 3) != Math.floor(i / 3))
             currentWord = currentWord + letters[i];
     };
@@ -102,12 +103,16 @@
     };
 
     let previousWords = [];
+    $: done = [...Array(12).keys()].every(
+        (i) => previousWords.join("").indexOf(letters[i]) > -1
+    );
     let enterWord = () => {
+        if (done) return;
         if (currentWord.length < minlength) return alert("Too short");
         if (!check(currentWord)) return alert("Not a word");
         previousWords = [...previousWords, currentWord];
         currentWord = currentWord.slice(-1);
-        lastLetter = lastLetter + 0; // force trigger other events
+        if (done) currentWord = "";
     };
     let caret = "?";
     setInterval(() => {
@@ -144,11 +149,15 @@
                 class="message">{message}</span
             >
         {/if}
-        <span style="display: inline">{currentWord}</span><span
-            class="unselectable"
-            style={(currentWord ? "width: 0em;" : "") +
-                "display: inline-block;"}>{caret}</span
-        >
+        {#if !done}
+            <span style="display: inline">{currentWord}</span><span
+                class="unselectable"
+                style={(currentWord ? "width: 0em;" : "") +
+                    "display: inline-block;"}>{caret}</span
+            >
+        {:else}
+            <span class="blink" style="display: inline">YOU WIN!</span>
+        {/if}
         <hr
             style="min-width: 10em; max-width: 13em;
 			border:1px solid black; margin-top: 0"
@@ -264,6 +273,16 @@
 
     .message {
         margin-top: -1.4em;
+    }
+
+    .blink {
+        animation: blinker 1s infinite;
+    }
+
+    @keyframes blinker {
+        50% {
+            opacity: 0;
+        }
     }
     @media (max-width: 350px) {
         h1 {
