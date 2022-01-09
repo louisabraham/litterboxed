@@ -1,8 +1,27 @@
 <script>
     import { onMount } from "svelte";
+    import { set_data } from "svelte/internal";
     import { fade } from "svelte/transition";
     export let brython_promise;
 
+    let message = "loading";
+    let alert = (msg) => {
+        message = msg;
+        setTimeout(() => {
+            message = "";
+        }, 1000);
+    };
+
+    let getDate = () => {
+        var today = new Date();
+        return (
+            today.getFullYear() +
+            "-" +
+            (today.getMonth() + 1) +
+            "-" +
+            today.getDate()
+        );
+    };
     let minlength = 3;
     let side = 30;
     let x = 6;
@@ -11,7 +30,11 @@
     let letters_pos = [];
     let letter_offset = 3.5;
     let letter_size = 4;
-    let letters = "            ";
+    let letters = "";
+    if (localStorage.getItem("date") != getDate()) {
+        localStorage.removeItem("puzzle");
+    }
+    letters = localStorage.getItem("puzzle") || "            ";
     let generate;
     let check;
     onMount(async () => {
@@ -19,6 +42,8 @@
             message = "";
             generate = make_generate();
             letters = generate().join("").toUpperCase();
+            localStorage.setItem("puzzle", letters);
+            localStorage.setItem("date", getDate());
             message = "loading dict";
             check = make_check();
             message = "";
@@ -100,13 +125,6 @@
         if (previousWords.join("").indexOf(letters[i]) > -1) return "grey";
         if (currentWord.indexOf(letters[i]) > -1) return "black";
         return "white";
-    };
-    let message = "loading";
-    let alert = (msg) => {
-        message = msg;
-        setTimeout(() => {
-            message = "";
-        }, 1000);
     };
 </script>
 
