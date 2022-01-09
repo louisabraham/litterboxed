@@ -7,28 +7,37 @@
 
 	<title>Svelte app</title>
 
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython/brython.min.js">
-	</script>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython/brython_stdlib.js">
-	</script>
 	<link rel='icon' type='image/png' href='/favicon.png'>
 	<link rel='stylesheet' href='/global.css'>
 	<link rel='stylesheet' href='/build/bundle.css'>
 
 	<script defer src='/build/bundle.js'></script>
+	<script id='brython1' defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython/brython.min.js">
+	</script>
+	<script id='brython2' defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/brython/brython_stdlib.js">
+	</script>
 </head>
 
 <body>
 </body>
+<script>
+	let brython_promise = new Promise((resolve, reject) => {
+		window.brython_loaded = resolve
+	});
 
-<script defer type="text/python">
+	document.getElementById("brython1").onload =
+		() => {
+			document.getElementById("brython2").onload = () => {
+				brython(); window.brython_loaded();
+			}
+		}
+</script>
+<script type="text/python">
 	from browser import window
-	
 	from litterboxed import make_check, make_generate
-
-	window.make_check = make_check
-	window.generate = make_generate()
 	
+	window.make_check = make_check
+	window.make_generate = make_generate	
 </script>
 
 </html>

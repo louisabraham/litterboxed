@@ -1,6 +1,7 @@
 <script>
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
+    export let brython_promise;
 
     let minlength = 3;
     let side = 30;
@@ -10,11 +11,18 @@
     let letters_pos = [];
     let letter_offset = 3.5;
     let letter_size = 4;
-    let letters = generate().join("").toUpperCase();
+    let letters = "            ";
+    let generate;
     let check;
     onMount(async () => {
-        check = make_check();
-        console.log(check("NAME"));
+        brython_promise.then(() => {
+            message = "";
+            generate = make_generate();
+            letters = generate().join("").toUpperCase();
+            message = "loading dict";
+            check = make_check();
+            message = "";
+        });
     });
 
     let hitboxes = [];
@@ -93,7 +101,7 @@
         if (currentWord.indexOf(letters[i]) > -1) return "black";
         return "white";
     };
-    let message = "";
+    let message = "loading";
     let alert = (msg) => {
         message = msg;
         setTimeout(() => {

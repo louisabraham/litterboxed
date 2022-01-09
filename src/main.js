@@ -1,8 +1,10 @@
 import App from './App.svelte';
-brython();
 
 const app = new App({
 	target: document.body,
+	props: {
+		brython_promise
+	}
 });
 
 export default app;
