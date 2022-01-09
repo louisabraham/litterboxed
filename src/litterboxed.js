@@ -42,10 +42,6 @@ export let loadWords = async (path) => fetch(path)
     .then(response => response.text()).then(t => t.split('\n'))
 
 
-// scrabble = await loadWords("./scrabble.txt")
-// easy = await loadWords('./easy.txt')
-
-
 let solveCover = (Y) => {
     // Y is a list of list of elements
     let X = new Map();
