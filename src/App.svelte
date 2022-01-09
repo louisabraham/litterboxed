@@ -41,6 +41,7 @@
         message = "loading dict";
         let scrabble = await loadWords("./scrabble.txt");
         check = makeCheck(scrabble);
+        window.check = scrabble;
         message = " ";
     })();
 

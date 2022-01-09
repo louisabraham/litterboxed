@@ -176,10 +176,11 @@ export let makeGenerate = (words) => {
 }
 
 export let makeCheck = (words) => (w) => {
+    w = w.toLowerCase();
     let a = 0,
         b = words.length;
-    while (a < b) {
-        let c = (a + b) / 2;
+    while (b - a > 1) {
+        let c = Math.floor((a + b) / 2);
         if (w < words[c])
             b = c;
         else
