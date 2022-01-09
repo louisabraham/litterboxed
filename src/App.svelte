@@ -120,6 +120,17 @@
         if (currentWord.indexOf(letters[i]) > -1) return "black";
         return "white";
     };
+
+    document.addEventListener("keydown", function (event) {
+        if (event.key == "Enter") {
+            enterWord();
+        } else if (event.key == "Backspace") {
+            deleteLetter();
+        } else {
+            let i = letters.indexOf(event.key.toUpperCase());
+            if (i != -1) selectLetter(i);
+        }
+    });
 </script>
 
 <main>
