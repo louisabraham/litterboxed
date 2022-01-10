@@ -254,8 +254,8 @@
             {/each}
         </div>
     {:else}
-        <a
-            href="#y"
+        <p
+            class="link"
             on:click={() => {
                 displaySols = true;
                 let yesterdayPuzzle = generate(yesterday())
@@ -264,10 +264,11 @@
                 letters = yesterdayPuzzle;
                 let format = (s) => `${s[0]} - ${s[1]}`;
                 solutions = solve(yesterdayPuzzle).map(format);
-                allSolutions = [];
                 allSolutions = solveAll(yesterdayPuzzle).map(format);
-            }}>Yesterday</a
+            }}
         >
+            Yesterday
+        </p>
     {/if}
 </main>
 
@@ -321,6 +322,15 @@
 
     .blink {
         animation: blinker 1s infinite;
+    }
+
+    .link {
+        color: rgb(0, 100, 200);
+        margin: 0;
+    }
+
+    .link:hover {
+        text-decoration: underline;
     }
 
     @keyframes blinker {
