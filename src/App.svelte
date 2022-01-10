@@ -159,7 +159,7 @@
             }}
         >
             <div class="modal-content">
-                <h3>How to Play</h3>
+                <h3 style="margin-top: .5em">How to Play</h3>
                 <ul>
                     <li>Connect letters to spell words</li>
                     <li>Words must be at least 3 letters long</li>
