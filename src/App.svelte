@@ -295,6 +295,8 @@
                     .join("")
                     .toUpperCase();
                 letters = yesterdayPuzzle;
+                previousWords = [];
+                currentWord = "";
                 let format = (s) => `${s[0]} - ${s[1]}`;
                 solutions = solve(yesterdayPuzzle).map(format);
                 allSolutions = solveAll(yesterdayPuzzle).map(format);
