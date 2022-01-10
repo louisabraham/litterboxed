@@ -39,7 +39,11 @@ function randomChoice(arr) {
 }
 
 export let loadWords = async (path) => fetch(path)
-    .then(response => response.text()).then(t => t.split('\n'))
+    .then(response => response.text()).then(t => {
+        let a = t.split('\n');
+        a.pop();
+        return a;
+    })
 
 
 let solveCover = (Y) => {
