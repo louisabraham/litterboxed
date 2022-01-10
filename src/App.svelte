@@ -143,11 +143,44 @@
             if (i != -1) selectLetter(i);
         }
     });
+    let help = false;
+    let modal;
 </script>
 
 <main>
     <h1>litter boxed</h1>
 
+    {#if help}
+        <div
+            class="modal"
+            bind:this={modal}
+            on:click={(evt) => {
+                help = evt.target != modal;
+            }}
+        >
+            <div class="modal-content">
+                <h3>How to Play</h3>
+                <ul>
+                    <li>Connect letters to spell words</li>
+                    <li>Words must be at least 3 letters long</li>
+                    <li>Letters can be reused</li>
+                    <li>Consecutive letters cannot be from the same side</li>
+                    <li>
+                        The last letter of a word becomes the first letter of
+                        the next word <br />
+                        e.g. THY > YES > SINCE
+                    </li>
+                    <li>Words cannot be proper nouns or hyphenated</li>
+                    <li>Use all letters to solve!</li>
+                    <li>
+                        There is always a solution with two words that repeats
+                        only the common letter <br />
+                        e.g. LANDS > SECURITY
+                    </li>
+                </ul>
+            </div>
+        </div>
+    {/if}
     <div class="current">
         {#if message}
             <span
@@ -269,6 +302,14 @@
         >
             Yesterday
         </p>
+        <p
+            class="link"
+            on:click={() => {
+                help = true;
+            }}
+        >
+            Help
+        </p>
     {/if}
 </main>
 
@@ -325,12 +366,38 @@
     }
 
     .link {
-        color: rgb(0, 100, 200);
+        display: inline;
         margin: 0.5em;
+        color: rgb(0, 100, 200);
     }
 
     .link:hover {
         text-decoration: underline;
+    }
+
+    .modal {
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0); /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+    /* Modal Content/Box */
+    .modal-content {
+        background-color: #fefefe;
+        margin: 6em auto;
+        padding: 10px;
+        border: 1px solid #888;
+        border-radius: 10px;
+        max-width: 400px; /* Could be more or less, depending on screen size */
+    }
+    .modal-content > ul {
+        text-align: left;
     }
 
     @keyframes blinker {
@@ -341,6 +408,9 @@
     @media (max-width: 350px) {
         h1 {
             font-size: 2.5em;
+        }
+        .modal-content {
+            margin: 5.5em auto; /* 15% from the top and centered */
         }
         .message {
             margin-top: -1.2em;
