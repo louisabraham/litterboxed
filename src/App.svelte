@@ -326,7 +326,7 @@
 
     .link {
         color: rgb(0, 100, 200);
-        margin: 0;
+        margin: 0.5em;
     }
 
     .link:hover {
