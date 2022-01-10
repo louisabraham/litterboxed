@@ -2,9 +2,11 @@
     import {
         seed,
         getDate,
+        yesterday,
         loadWords,
         makeGenerate,
         makeCheck,
+        makeSolve,
     } from "./litterboxed.js";
 
     import { fade } from "svelte/transition";
@@ -30,18 +32,23 @@
         localStorage.removeItem("puzzle");
     }
     letters = localStorage.getItem("puzzle") || "            ";
-    let generate, check;
+    let generate, check, solve, solveAll;
+    let displaySols = false;
+    let solutions, allSolutions;
     (async () => {
+        let y = window.location.hash == "#y";
         seed(getDate());
         let easy = await loadWords("./easy.txt");
         generate = makeGenerate(easy);
-        letters = generate().join("").toUpperCase();
+        letters = generate(getDate()).join("").toUpperCase();
         localStorage.setItem("puzzle", letters);
         localStorage.setItem("date", getDate());
         message = "loading dict";
         let scrabble = await loadWords("./scrabble.txt");
         check = makeCheck(scrabble);
         message = " ";
+        solve = makeSolve(easy);
+        solveAll = makeSolve(scrabble);
     })();
 
     let hitboxes = [];
@@ -234,6 +241,34 @@
         <button on:click={deleteLetter}>Delete</button>
         <button on:click={enterWord}>Enter</button>
     </div>
+    {#if displaySols}
+        <div class="solutions">
+            <p>Some solutions for yesterday</p>
+            {#each solutions as sol}
+                <p style="font-weight: bold">{sol}</p>
+            {/each}
+            {#each allSolutions as sol}
+                {#if !solutions.includes(sol)}
+                    <p>{sol}</p>
+                {/if}
+            {/each}
+        </div>
+    {:else}
+        <a
+            href="#y"
+            on:click={() => {
+                displaySols = true;
+                let yesterdayPuzzle = generate(yesterday())
+                    .join("")
+                    .toUpperCase();
+                letters = yesterdayPuzzle;
+                let format = (s) => `${s[0]} - ${s[1]}`;
+                solutions = solve(yesterdayPuzzle).map(format);
+                allSolutions = [];
+                allSolutions = solveAll(yesterdayPuzzle).map(format);
+            }}>Yesterday</a
+        >
+    {/if}
 </main>
 
 <style>

@@ -144,19 +144,25 @@ let genPair = (words, wbfl, unique) => {
             return [w1, w2];
     }
 }
-export let getDate = () => {
-    var today = new Date();
+export let getDate = (day) => {
+    if (!day)
+        day = new Date();
     return (
-        today.getFullYear() +
+        day.getFullYear() +
         "-" +
-        (today.getMonth() + 1) +
+        (day.getMonth() + 1) +
         "-" +
-        today.getDate()
+        day.getDate()
     );
 };
 
+export let yesterday = () => {
+    var date = new Date();
+    date.setDate(date.getDate() - 1);
+    return getDate(date);
+}
+
 export let makeGenerate = (words) => {
-    seed(getDate());
     let wbfl = new Map();
     for (let w of words) {
         let c = w[0];
@@ -164,7 +170,9 @@ export let makeGenerate = (words) => {
             wbfl.set(c, new Array());
         wbfl.get(c).push(w);
     }
-    return () => {
+    return (s) => {
+        if (s)
+            seed(s);
         while (true) {
             let [w1, w2] = genPair(words, wbfl, true);
             let puzzle = partition(w1, w2);
@@ -188,3 +196,43 @@ export let makeCheck = (words) => (w) => {
     }
     return w == words[a];
 };
+
+export let makeSolve = (words) => (puzzle) => {
+    puzzle = puzzle.toLowerCase();
+    let valid = (w) => {
+        let last = null;
+        for (let c of w) {
+            let i = puzzle.indexOf(c);
+            if (i == -1 || i == last)
+                return false;
+            last = i;
+        }
+        return true;
+    }
+    let ltp = new Map();
+    for (let w of words) {
+        if (!valid(w))
+            continue;
+        for (let [i, c] of [
+                [0, w.slice(-1)],
+                [1, w[0]]
+            ]) {
+            if (!ltp.has(c))
+                ltp.set(c, [
+                    [],
+                    []
+                ]);
+            ltp.get(c)[i].push(w);
+        }
+    }
+    let ans = [];
+    for (let [l1, l2] of ltp.values()) {
+        for (let w1 of l1) {
+            for (let w2 of l2) {
+                if ((w1 + w2).length == 13 && new Set(w1 + w2).size == 12)
+                    ans.push([w1, w2]);
+            }
+        }
+    }
+    return ans;
+}
