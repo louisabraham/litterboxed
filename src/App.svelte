@@ -177,6 +177,17 @@
                         only the common letter <br />
                         e.g. LANDS > SECURITY
                     </li>
+                    <p>
+                        Inspired by the <a
+                            href="https://www.nytimes.com/puzzles/letter-boxed"
+                            >NYT's Letter Boxed</a
+                        >.
+                    </p>
+                    <p>
+                        <a href="https://github.com/louisabraham/litterboxed"
+                            >Source code</a
+                        >
+                    </p>
                 </ul>
             </div>
         </div>
