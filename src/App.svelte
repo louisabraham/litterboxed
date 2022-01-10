@@ -185,7 +185,7 @@
                     </p>
                     <p>
                         <a href="https://github.com/louisabraham/litterboxed"
-                            >Source code</a
+                            >Source code and trivia</a
                         >
                     </p>
                 </ul>
