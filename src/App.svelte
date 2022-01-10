@@ -333,6 +333,11 @@
         margin: 0 auto;
     }
 
+    /* disable zoom on iOS */
+    body {
+        touch-action: pan-x pan-y;
+    }
+
     h1 {
         color: #ff3e00;
         text-transform: uppercase;
